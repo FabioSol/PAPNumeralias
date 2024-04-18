@@ -1,7 +1,6 @@
 import urllib.request
 import json
 import re
-
 import pandas as pd
 
 
@@ -23,7 +22,7 @@ class Fetcher:
         else:
             fmt = None
         data = response["Data"]["Serie"]
-        serie =pd.Series({entry['TimePeriod']: entry['CurrentValue'] for entry in data},name=name)
+        serie =pd.Series({entry['TimePeriod']: pd.to_numeric(entry['CurrentValue'], errors='coerce') for entry in data},name=name)
         serie.index = pd.to_datetime(serie.index, format=fmt)
         return serie
 
@@ -39,6 +38,3 @@ class Fetcher:
         url = f"https://www.inegi.org.mx/app/api/indicadores/interna_v1_3/API.svc/IndicadoresPorTemaRecursivo/null/{series_key}/es/null/0/1500/null/0/true/99%20/6/json/96fbd1bf-21e6-28e3-6e64-2b15999d2c89?"
         response = Fetcher.request_url(url)
         return list(filter(None, response['indicadoresTodos'].split(",")))
-
-if __name__ == '__main__':
-    print(Fetcher.get_indicators_by_subject("10000080018000700110"))

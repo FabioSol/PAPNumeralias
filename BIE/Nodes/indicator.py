@@ -1,5 +1,5 @@
-from Explorer.Nodes.abstract_node import Node
-from Explorer.fetcher import Fetcher
+from BIE.Nodes.abstract_node import Node
+from BIE.fetcher import Fetcher
 
 
 class Indicator(Node):

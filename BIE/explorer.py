@@ -1,5 +1,7 @@
-from Explorer.Nodes.abstract_node import Node
-from Explorer.Nodes.subject import Subject
+from BIE.Nodes.abstract_node import Node
+from BIE.Nodes.subject import Subject
+
+#https://www.inegi.org.mx/app/indicadores/?tm=0#D444557_10000080018000700110
 
 class Explorer:
     def __init__(self, node:Node=Subject("Origen","999999999999",{}),visualization_level:int = 2,vl=None):
@@ -35,7 +37,3 @@ class Explorer:
         return self.node.fetch()
 
 
-if __name__ == '__main__':
-    e=Explorer()
-    s=e[1][0][0].fetch()
-    print(s)

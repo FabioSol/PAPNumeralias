@@ -1,12 +1,7 @@
-import urllib
-import re
-import json
-
 import pandas as pd
-
-from Explorer.Nodes.abstract_node import Node
-from Explorer.Nodes.indicator import Indicator
-from Explorer.fetcher import Fetcher
+from BIE.Nodes.abstract_node import Node
+from BIE.Nodes.indicator import Indicator
+from BIE.fetcher import Fetcher
 import concurrent.futures
 
 
@@ -42,8 +37,6 @@ class Subject(Node):
             concurrent.futures.wait(futures)
             series_list = [future.result() for future in futures]
 
-            # Concatenate the series into a single DataFrame
         df = pd.concat(series_list, axis=1)
-
         return df
 
