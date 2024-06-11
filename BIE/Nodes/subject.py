@@ -3,6 +3,7 @@ from BIE.Nodes.abstract_node import Node
 from BIE.Nodes.indicator import Indicator
 from BIE.fetcher import Fetcher
 import concurrent.futures
+from tqdm import tqdm
 
 
 class Subject(Node):
@@ -32,11 +33,12 @@ class Subject(Node):
 
     def fetch(self):
         indicators = Fetcher.get_indicators_by_subject(self.series_key)
-        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-            futures = [executor.submit(Fetcher.get_series, indicator) for indicator in indicators]
-            concurrent.futures.wait(futures)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=None) as executor:
+            with tqdm(total=len(indicators)) as pbar:
+                futures = [executor.submit(Fetcher.get_series, indicator) for indicator in indicators]
+                for future in concurrent.futures.as_completed(futures):
+                    pbar.update(1)
             series_list = [future.result() for future in futures]
-
         df = pd.concat(series_list, axis=1)
         return df
 

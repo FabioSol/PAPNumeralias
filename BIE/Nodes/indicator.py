@@ -13,10 +13,10 @@ class Indicator(Node):
 
     @classmethod
     def from_dict(cls,d):
-        return cls(d['indicador']['nombre'],d['indicador']['indicador'],d)
+        return cls(d['indicador']['nombre'],d['claveSerie'],d)
 
     def __repr__(self):
         return f" Indicador: {self.name}"
 
     def fetch(self):
-        return Fetcher.get_series(self.series_key)
+        return Fetcher.get_series(self.info['indicador']['indicador'])

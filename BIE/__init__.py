@@ -1,1 +1,1 @@
-from .explorer import Explorer
+from BIE.explorer import Explorer
